@@ -4,8 +4,8 @@
     "description": "customer loyalty contract implemented in JavaScript",
     "main": "index.js",
     "engines": {
-        "node": ">=8",
-        "npm": ">=5"
+        "node": ">=12",
+        "npm": ">=7"
     },
     "scripts": {
         "lint": "eslint --ignore-path ../.eslintignore .",
@@ -16,10 +16,6 @@
     "engineStrict": true,
     "author": "Hyperledger",
     "license": "Apache-2.0",
-    "dependencies": {
-        "fabric-contract-api": "~1.4.4",
-        "fabric-shim": "~1.4.4"
-    },
     "devDependencies": {
         "chai": "^4.2.0",
         "eslint": "^6.8.0",
@@ -43,5 +39,9 @@
         "branches": 100,
         "functions": 100,
         "lines": 100
+    },
+    "dependencies": {
+        "fabric-contract-api": "^2.2.1",
+        "fabric-shim": "^2.2.1"
     }
 }
