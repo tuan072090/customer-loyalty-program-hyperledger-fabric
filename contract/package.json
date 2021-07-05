@@ -8,10 +8,12 @@
         "npm": ">=7"
     },
     "scripts": {
-        "lint": "eslint --ignore-path ../.eslintignore .",
+        "lint": "eslint .",
         "pretest": "npm run lint",
         "test": "nyc mocha --recursive",
-        "start": "fabric-chaincode-node start"
+        "start": "fabric-chaincode-node start",
+        "network:channel": "./network.sh up createChannel -c meete-channel -ca",
+        "deploy": "./network.sh deployCC -ccn loyalty -c meete-channel -ccp /Volumes/DATA/work/z_repositories/blockchain_dev/customer-loyalty-program-hyperledger-fabric-VSCode/contract -ccl javascript"
     },
     "engineStrict": true,
     "author": "Hyperledger",

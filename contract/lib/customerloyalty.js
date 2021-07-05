@@ -1,11 +1,14 @@
 'use strict';
 
-const { Contract } = require('fabric-contract-api');
+const {Contract} = require('fabric-contract-api');
 const allPartnersKey = 'all-partners';
 const earnPointsTransactionsKey = 'earn-points-transactions';
 const usePointsTransactionsKey = 'use-points-transactions';
 
 class CustomerLoyalty extends Contract {
+    constructor() {
+        super('CustomerLoyalty');
+    }
 
     // Init function executed when the ledger is instantiated
     async instantiate(ctx) {
@@ -30,22 +33,29 @@ class CustomerLoyalty extends Contract {
 
     // Add a partner on the ledger, and add it to the all-partners list
     async CreatePartner(ctx, partner) {
-        partner = JSON.parse(partner);
+        try {
+            partner = JSON.parse(partner);
 
-        await ctx.stub.putState(partner.id, Buffer.from(JSON.stringify(partner)));
+            console.log('add partner.............', partner);
 
-        let allPartners = await ctx.stub.getState(allPartnersKey);
-        allPartners = JSON.parse(allPartners);
-        allPartners.push(partner);
-        await ctx.stub.putState(allPartnersKey, Buffer.from(JSON.stringify(allPartners)));
+            await ctx.stub.putState(partner.id, Buffer.from(JSON.stringify(partner)));
 
-        return JSON.stringify(partner);
+            let allPartners = await ctx.stub.getState(allPartnersKey);
+            allPartners = JSON.parse(allPartners);
+            allPartners.push(partner);
+            await ctx.stub.putState(allPartnersKey, Buffer.from(JSON.stringify(allPartners)));
+
+            return JSON.stringify(partner);
+        } catch (err) {
+            console.log('add partner error....', err);
+            return JSON.stringify(err);
+        }
     }
 
     // Record a transaction where a member earns points
     async EarnPoints(ctx, earnPoints) {
         earnPoints = JSON.parse(earnPoints);
-        earnPoints.timestamp = new Date((ctx.stub.txTimestamp.seconds.low*1000)).toGMTString();
+        earnPoints.timestamp = new Date((ctx.stub.txTimestamp.seconds.low * 1000)).toGMTString();
         earnPoints.transactionId = ctx.stub.txId;
 
         let member = await ctx.stub.getState(earnPoints.member);
@@ -64,7 +74,7 @@ class CustomerLoyalty extends Contract {
     // Record a transaction where a member redeems points
     async UsePoints(ctx, usePoints) {
         usePoints = JSON.parse(usePoints);
-        usePoints.timestamp = new Date((ctx.stub.txTimestamp.seconds.low*1000)).toGMTString();
+        usePoints.timestamp = new Date((ctx.stub.txTimestamp.seconds.low * 1000)).toGMTString();
         usePoints.transactionId = ctx.stub.txId;
 
         let member = await ctx.stub.getState(usePoints.member);
