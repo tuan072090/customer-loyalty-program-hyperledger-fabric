@@ -39,7 +39,7 @@ Follow these steps to set up and run this code pattern.
 
 ### Prerequisites
 
-You will need to follow the requirements for the [Hyperledger Fabric document](https://hyperledger-fabric.readthedocs.io/en/release-2.2/install.html):
+You had to complete the task from [Hyperledger Fabric document](https://hyperledger-fabric.readthedocs.io/en/release-2.2/install.html):
 
 
 ### Steps
